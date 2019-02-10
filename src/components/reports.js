@@ -2,8 +2,22 @@ import React, { Component } from 'react';
 import './reports.css';
 
 import Button from '@material-ui/core/Button';
+import { Draggable, Droppable } from 'react-drag-and-drop';
 
 export class Reports extends Component {
+
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+           data: ''
+        }
+        this.updateState = this.updateState.bind(this);
+     };
+     updateState() {
+        this.setState({data: 'Row Id'})
+     }
+
   render() {
     return (
         <div className="container">
@@ -15,8 +29,8 @@ export class Reports extends Component {
             </div>
             <div className="col-6">
             <form>
-                <div class="row">
-                    <div class="col">
+                <div className="row">
+                    <div className="col">
                         <select id="inputState" class="form-control">
                             <option selected>Order Reports</option>
                             <option>Progress Reports</option>
@@ -44,24 +58,40 @@ export class Reports extends Component {
             <div className="col-2 ">
             <h6> Dimensions </h6>
                 <ul className="list-group">
-                    <li className="list-group-item"> Row Id </li>
-                    <li className="list-group-item"> Category </li>
-                    <li className="list-group-item"> Sub Category </li>
-                    <li className="list-group-item"> Order Date </li>
-                    <li className="list-group-item"> Ship Date </li>
+                <Draggable type="text" data="Row Id"> 
+                <li className="list-group-item"> 
+                <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown button
+  </button>
+  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a className="dropdown-item" onClick = {this.updateState}>Action</a>
+    <a className="dropdown-item" href="#">Another action</a>
+    <a className="dropdown-item" href="#">Something else here</a>
+  </div>
+</div>
+                </li>
+                </Draggable>
+                <Draggable type="Category" data="Category"><li className="list-group-item"> Category </li></Draggable>
+                <Draggable type="Sub Category" data="Sub Category"><li className="list-group-item"> Sub Category </li></Draggable>
+                <Draggable type="Order Date" data="Order Date"><li className="list-group-item"> Order Date </li></Draggable>
+                <Draggable type="Ship Date" data="Ship Date"><li className="list-group-item"> Ship Date </li></Draggable>
                 </ul>
                 <h6 className="mt-2"> Measures </h6>
-                <ul className="list-group">
-                    <li className="list-group-item"> Sales </li>
-                    <li className="list-group-item"> Quantity </li>
-                    <li className="list-group-item"> Discount </li>
-                    <li className="list-group-item"> Profit </li>
-                </ul>
+                
             </div>
             <div className="col-10 mt-5">
+            <Droppable
+                types={['data']} // <= allowed drop types
+                onDrop={this.onDrop.bind(this)}>
                 <div className="row box">
                     <div className="col ">
-                        <h6 className="text-left"> Row </h6>
+                        
+                        
+                <ul className="Smoothie">
+                <h6 className="text-left"> Row {this.state.data}</h6>
+                </ul>
+                
                     </div>
                     <div className="col border-left">
                         <h6 className="text-left"> Columns </h6>
@@ -81,13 +111,18 @@ export class Reports extends Component {
                         <hr/>
                     </div>
                 </div>{/*3rd row end here*/}
-            </div>
+            
             {/*row and other column end here*/}
-
+            </Droppable>
+        </div>
         </div>
         </div>
     )
   }
+  onDrop(data) {
+    console.log(data);
+  }
+
 }
 
 export default Reports;
